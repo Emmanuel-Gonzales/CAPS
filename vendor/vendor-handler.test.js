@@ -1,7 +1,7 @@
 'use strict';
 
 const eventEmitter = require('../eventpool');
-const { pickupHand, deliverHand } = require('./handler');
+const { vendorHandler, thankYou } = require('../vendor/handler');
 
 jest.mock('../eventpool.js', () => {
   return{
@@ -19,22 +19,20 @@ afterEach(() => {
   consoleSpy.mockRestore();
 });
 
-describe('driver handler', () => { 
-  test('Testing pickup Functions', () => {
-    let payload = {
+describe('Vendor Handlers', () => {
+  test('vendor handler', () => {
+    let vendorOrder = {
       store: 'exStore',
       orderId: 'order123',
       customer: 'John Doe',
       address: '123 sreet',
     };
 
-    pickupHand(payload);
-
-    expect(consoleSpy).toHaveBeenCalledWith(`DRIVER: picked up ${payload.orderId}`);
-    expect(eventEmitter.emit).toHaveBeenCalledWith('in-transit', payload);
+    vendorHandler(vendorOrder);
+    expect(eventEmitter.emit).toHaveBeenCalledWith('pickup', vendorOrder);
   });
 
-  test('Testing deliver Functions', () => {
+  test('Test the deliver handler', () => {
     let payload = {
       store: 'exStore',
       orderId: 'order123',
@@ -42,9 +40,7 @@ describe('driver handler', () => {
       address: '123 sreet',
     };
 
-    deliverHand(payload);
-
-    expect(consoleSpy).toHaveBeenCalledWith(`DRIVER: delivered ${payload.orderId}`);
-    expect(eventEmitter.emit).toHaveBeenCalledWith('delivered', payload);
+    thankYou(payload);
+    expect(consoleSpy).toHaveBeenCalledWith(`Thank you for your order ${payload.customer}`);
   });
 });
