@@ -1,4 +1,4 @@
-# LAB - Class 08
+# LAB - Class 11
 
 ## Project: Event Driven Applications
 
