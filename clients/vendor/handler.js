@@ -1,6 +1,8 @@
 'use strict';
 
-let eventEmitter = require('../eventpool');
+// let eventEmitter = require('../eventpool');
+const { io } =  require('socket.io-client');
+const socket =  io('http://localhost:3001/caps');
 var Chance = require('chance');
 var chance = new Chance;
 
@@ -13,7 +15,7 @@ const vendorHandler = (vendorOrder=null) => {
       address: chance.address(),
     };
   }
-  eventEmitter.emit('pickup', vendorOrder);
+  socket.emit('pickup', vendorOrder);
 };
 
 const thankYou = (payload) => console.log(`Thank you for your order ${payload.customer}`);

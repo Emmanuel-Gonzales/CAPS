@@ -35,3 +35,4 @@ This Lab is the beginning of our time working with event driven apps. We are to 
 #### UML
 
 ![UML](/assets/uml-11.png)
+![UML](/assets/uml-11.png)

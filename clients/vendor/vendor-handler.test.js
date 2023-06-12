@@ -1,9 +1,11 @@
 'use strict';
 
-const eventEmitter = require('../eventpool');
+// const eventEmitter = require('../eventpool');
+const { io } =  require('socket.io-client');
+const socket =  io('http://localhost:3001/caps');
 const { vendorHandler, thankYou } = require('../vendor/handler');
 
-jest.mock('../eventpool.js', () => {
+jest.mock('socket.io-client', () => {
   return{
     on: jest.fn(),
     emit: jest.fn(),
@@ -29,7 +31,7 @@ describe('Vendor Handlers', () => {
     };
 
     vendorHandler(vendorOrder);
-    expect(eventEmitter.emit).toHaveBeenCalledWith('pickup', vendorOrder);
+    expect(socket.emit).toHaveBeenCalledWith('pickup', vendorOrder);
   });
 
   test('Test the deliver handler', () => {
